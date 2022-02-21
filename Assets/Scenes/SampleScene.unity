@@ -1181,5 +1181,9 @@ PrefabInstance:
       propertyPath: tilemap
       value: 
       objectReference: {fileID: 799303144}
+    - target: {fileID: 4795261391680369487, guid: d78132c267d71094a9da74b0f3d20c60, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 519420028}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d78132c267d71094a9da74b0f3d20c60, type: 3}

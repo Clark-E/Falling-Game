@@ -14,7 +14,9 @@ struct collisionResult {
 
 public class PlayerController : MonoBehaviour
 {
-
+	
+	public GameObject playerCamera;
+	
     public Tilemap tilemap;
 
     private Vector2 position;
@@ -252,6 +254,9 @@ public class PlayerController : MonoBehaviour
             jumped = true;
             
         }
+		
+		playerCamera.transform.position = new Vector3(this.position.x, this.position.y, playerCamera.transform.position.z);
+		
     }
 
     void FixedUpdate()
@@ -328,5 +333,5 @@ public class PlayerController : MonoBehaviour
         this.transform.position = new Vector3(this.position.x, this.position.y, this.transform.position.z);
 
     }
-
+	
 }
