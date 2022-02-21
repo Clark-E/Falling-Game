@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private float GRAVITY = 0.003f;
     private float MAX_FALL_SPEED = 0.03f;
     private float JUMP_SPEED = 0.10f;
+    private float FORCED_JUMP_SPEED = 0.13f;
     private float HORIZONTAL_ACCEL_GROUND = 0.02f;
     private float HORIZONTAL_ACCEL_AIR = 0.004f;
     private float MAX_HORIZONTAL_SPEED = 0.055f;
@@ -333,5 +334,17 @@ public class PlayerController : MonoBehaviour
         this.transform.position = new Vector3(this.position.x, this.position.y, this.transform.position.z);
 
     }
+	
+	void OnTriggerEnter2D(Collider2D other){
+		
+		//print(other);
+		
+		if(other.gameObject.CompareTag("Cloud")){
+			
+			this.velocity.y = FORCED_JUMP_SPEED;
+			
+		}
+		
+	}
 	
 }
