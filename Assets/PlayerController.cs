@@ -266,7 +266,7 @@ public class PlayerController : MonoBehaviour
         if (jumped)
         {
 
-            velocity.y = JUMP_SPEED;
+            velocity.y = Mathf.Max(velocity.y,JUMP_SPEED);
 
             jumped = false;
 
