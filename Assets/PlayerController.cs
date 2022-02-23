@@ -342,6 +342,7 @@ public class PlayerController : MonoBehaviour
 		if(other.gameObject.CompareTag("Cloud")){
 			
 			this.velocity.y = FORCED_JUMP_SPEED;
+            Destroy(other.gameObject);
 			
 		}
 		
