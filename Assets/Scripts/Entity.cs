@@ -17,8 +17,11 @@ public class Entity : MonoBehaviour
 {
 
     public Tilemap tilemap;
-
+	
+	public TileLookup tileLookup;
+	
     protected Vector2 position;
+    protected Vector2 previousPosition;
 
     [HideInInspector]
     public Vector2 velocity;
@@ -42,7 +45,7 @@ public class Entity : MonoBehaviour
     protected Vector3 tilemapCenter;
 
     protected int MAX_COLLISION_RESULTS = 16;
-
+	
     protected void getTileBounds(out float x1, out float x2, out float y1, out float y2)
     {
 
@@ -63,13 +66,27 @@ public class Entity : MonoBehaviour
     protected bool isSolidTile(int x, int y)
     {
 
-        TileBase tile = tilemap.GetTile(new Vector3Int(x, y, 0));
-
-        if (tile)
+        TileBase tile = tilemap.GetTile<Tile>(new Vector3Int(x, y, 0));
+		
+		if (tile)
         {
-
-            return (true);
-
+			
+			if(tile == tileLookup.oneWayPlatform){
+				
+				if(y - BOUNDS_THRESHOLD_EPSILION >= previousPosition.y-height*2.0){
+					
+					return(false);
+					
+				}
+				
+				return(true);
+				
+			}else{
+				
+				return(true);
+				
+			}
+			
         }
         else
         {
@@ -246,8 +263,25 @@ public class Entity : MonoBehaviour
     public void setVisualPosition() {
 
         this.transform.position = new Vector3(this.position.x, this.position.y, this.transform.position.z);
-
+		
     }
+	
+	public void updatePosition(){
+		
+		this.previousPosition = this.position;
+		
+        position.y += velocity.y;
+
+        rectifyCollision(false);
+
+        position.x += velocity.x;
+
+        rectifyCollision(true);
+
+        setVisualPosition();
+
+		
+	}
 
     public void Start()
     {
@@ -255,7 +289,9 @@ public class Entity : MonoBehaviour
         this.tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
 
         this.position = new Vector2(this.transform.position.x, this.transform.position.y);
-
+		
+		tileLookup = GameObject.Find("TileLookup").GetComponent<TileLookup>();
+		
     }
 
 }
