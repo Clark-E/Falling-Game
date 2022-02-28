@@ -1,11 +1,9 @@
 fileFormatVersion: 2
-guid: 6b92b713a8fcba645944ce98f72fe981
+guid: 5d14d9e651c7c7641904360974ee484d
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - tilemap: {instanceID: 0}
-  - oneWayPlatform: {fileID: 11400000, guid: 73c438d2b35cefb478634833dfd40906, type: 2}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

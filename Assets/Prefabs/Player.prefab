@@ -96,3 +96,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemap: {fileID: 0}
+  tileAssets:
+  - {fileID: 11400000, guid: e88bb00d410932d489fe52683e136147, type: 2}
+  - {fileID: 11400000, guid: 73c438d2b35cefb478634833dfd40906, type: 2}
+  velocity: {x: 0, y: 0}
+  playerCamera: {fileID: 0}

@@ -27,7 +27,7 @@ public class CloudController : Entity
 
     }
 
-    void Start()
+    new void Start()
     {
 
         base.Start();

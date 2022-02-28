@@ -62,10 +62,6 @@ public class PlayerController : Entity
 
         //this.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y + velocity.y, this.gameObject.transform.position.z);
 
-        position.y += velocity.y;
-
-        rectifyCollision(false);
-
         float usedHorizontalAcceleration;
 
         if (isColliding(checkTileCollision(BOUNDS_THRESHOLD_EPSILION, BOUNDS_THRESHOLD_EPSILION, 0.0f, -BOUNDS_THRESHOLD_EPSILION*2.0f)))
@@ -101,13 +97,9 @@ public class PlayerController : Entity
         }
 
         //this.transform.position = new Vector3(this.gameObject.transform.position.x + velocity.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z);
-
-        position.x += velocity.x;
-
-        rectifyCollision(true);
-
-        setVisualPosition();
-
+		
+		updatePosition();
+		
     }
 	
 	void OnTriggerEnter2D(Collider2D other){
