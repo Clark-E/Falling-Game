@@ -17,9 +17,7 @@ public class PlayerController : Entity
 
         tilemapCenter = tilemap.GetCellCenterWorld(new Vector3Int(0, 0, 0));
 
-        //tilemapCenter += new Vector3(0.5f, 0.5f, 0.0f);
-
-        //print(tilemapCenter);
+        //this.width = 
 
     }
 
