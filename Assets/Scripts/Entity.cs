@@ -28,10 +28,6 @@ public class Entity : MonoBehaviour
 
     protected float GRAVITY = 0.003f;
     protected float MAX_FALL_SPEED = 0.03f;
-    protected float JUMP_SPEED = 0.10f;
-    protected float FORCED_JUMP_SPEED = 0.13f;
-    protected float HORIZONTAL_ACCEL_GROUND = 0.02f;
-    protected float HORIZONTAL_ACCEL_AIR = 0.004f;
     protected float MAX_HORIZONTAL_SPEED = 0.055f;
 
     //width and height, measured from center to edge.
@@ -45,6 +41,8 @@ public class Entity : MonoBehaviour
     protected Vector3 tilemapCenter;
 
     protected int MAX_COLLISION_RESULTS = 16;
+
+    protected bool hitTile;
 	
     protected void getTileBounds(out float x1, out float x2, out float y1, out float y2)
     {
@@ -186,6 +184,8 @@ public class Entity : MonoBehaviour
 
             if (!results[i].hit) break;
 
+            this.hitTile = true;
+
             if (doX)
             {
 
@@ -267,7 +267,8 @@ public class Entity : MonoBehaviour
     }
 	
 	public void updatePosition(){
-		
+
+        this.hitTile = false;
 		this.previousPosition = this.position;
 		
         position.y += velocity.y;
