@@ -34,7 +34,7 @@ public class Entity : MonoBehaviour
     protected float width = 0.5f;
     protected float height = 1.0f;
 
-    protected float BOUNDS_THRESHOLD_EPSILION = 1e-6f;
+    protected float BOUNDS_THRESHOLD_EPSILION = 1e-5f;
 
     protected float tileRadius = 0.5f;
 
@@ -109,10 +109,10 @@ public class Entity : MonoBehaviour
 
         getTileBounds(out fx1, out fx2, out fy1, out fy2);
 
-        int x1 = Mathf.FloorToInt(fx1 + widthThreshold + xOff);
-        int x2 = Mathf.CeilToInt(fx2 - widthThreshold + xOff);
-        int y1 = Mathf.FloorToInt(fy1 + heightThreshold + yOff);
-        int y2 = Mathf.CeilToInt(fy2 - heightThreshold + yOff);
+        int x1 = Mathf.FloorToInt(fx1 + (widthThreshold + xOff));
+        int x2 = Mathf.CeilToInt(fx2 - (widthThreshold + xOff));
+        int y1 = Mathf.FloorToInt(fy1 + (heightThreshold + yOff));
+        int y2 = Mathf.CeilToInt(fy2 - (heightThreshold + yOff));
 
         for (int i = 0; i < results.Length; i++)
         {

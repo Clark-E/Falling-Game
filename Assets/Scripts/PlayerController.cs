@@ -15,10 +15,17 @@ public class PlayerController : Entity
 
     const float EXAGERATE_VISUAL_ROTATION = 80.0f;
 
+    const float VISUAL_ROTATION_DRAG = 0.98f;
+    const float VISUAL_ROTATION_LERP = 0.8f;
+
     protected float JUMP_SPEED = 0.07f;
     protected float FORCED_JUMP_SPEED = 0.13f;
     protected float HORIZONTAL_ACCEL_GROUND = 0.02f;
     protected float HORIZONTAL_ACCEL_AIR = 0.004f;
+
+    public Sprite[] sprites;
+
+    SpriteRenderer spriteRenderer;
 
     new void Start()
     {
@@ -35,9 +42,13 @@ public class PlayerController : Entity
         visualRotationVelocity = 0.0f;
         visualHorizontalDirection = 1.0f;
 
+        spriteRenderer = this.GetComponent<SpriteRenderer>();
+
     }
 
     private bool jumped = false;
+
+    bool grounded;
 
     private void Update()
     {
@@ -53,6 +64,21 @@ public class PlayerController : Entity
         q.eulerAngles = new Vector3(0.0f, 0.0f, this.visualRotation*EXAGERATE_VISUAL_ROTATION);
         this.transform.rotation = q;
         this.transform.localScale = new Vector3(visualHorizontalDirection, 1.0f, 1.0f);
+
+        if (this.grounded) {
+
+            this.spriteRenderer.sprite = sprites[2];
+            
+        }else if (this.velocity.y > 0.0f) {
+
+            this.spriteRenderer.sprite = sprites[1];
+
+        }
+        else{
+
+            this.spriteRenderer.sprite = sprites[0];
+
+        }
 
     }
 
@@ -82,8 +108,6 @@ public class PlayerController : Entity
         }
 
         //this.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y + velocity.y, this.gameObject.transform.position.z);
-
-        bool grounded;
 
         float usedHorizontalAcceleration;
 
@@ -130,27 +154,27 @@ public class PlayerController : Entity
             this.visualRotationVelocity -= this.visualRotation * Time.deltaTime;
             this.visualRotationVelocity -= this.velocity.x * Time.deltaTime;
 
-            this.visualRotationVelocity *= 0.95f;
+            this.visualRotationVelocity *= VISUAL_ROTATION_DRAG;
 
             this.visualRotation += visualRotationVelocity;
 
         }
         else {
 
-            this.visualRotation *= 0.8f;
-            this.visualRotationVelocity *= 0.8f;
+            this.visualRotation *= VISUAL_ROTATION_LERP;
+            this.visualRotationVelocity *= VISUAL_ROTATION_LERP;
             
         }
 
         if (this.velocity.x > 0.0f)
         {
 
-            this.visualHorizontalDirection = 1.0f;
+            this.visualHorizontalDirection = -1.0f;
 
         }
         else if (this.velocity.x < 0.0f) {
 
-            this.visualHorizontalDirection = -1.0f;
+            this.visualHorizontalDirection = 1.0f;
 
         }
 
