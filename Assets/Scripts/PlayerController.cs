@@ -8,6 +8,9 @@ public class PlayerController : Entity
 	
 	public GameObject playerCamera;
 
+    public GameObject playerSprite;
+    public GameObject hatSprite;
+
     float visualRotation;
     float visualRotationVelocity;
 
@@ -36,13 +39,14 @@ public class PlayerController : Entity
 
         tilemapCenter = tilemap.GetCellCenterWorld(new Vector3Int(0, 0, 0));
 
-        //this.width = 
+        this.width = 0.48f;
+        this.height = 0.98f;
 
         visualRotation = 0.0f;
         visualRotationVelocity = 0.0f;
         visualHorizontalDirection = 1.0f;
 
-        spriteRenderer = this.GetComponent<SpriteRenderer>();
+        spriteRenderer = playerSprite.GetComponent<SpriteRenderer>();
 
     }
 
@@ -62,8 +66,8 @@ public class PlayerController : Entity
 
         Quaternion q = new Quaternion();
         q.eulerAngles = new Vector3(0.0f, 0.0f, this.visualRotation*EXAGERATE_VISUAL_ROTATION);
-        this.transform.rotation = q;
-        this.transform.localScale = new Vector3(visualHorizontalDirection, 1.0f, 1.0f);
+        playerSprite.transform.rotation = q;
+        playerSprite.transform.localScale = new Vector3(visualHorizontalDirection, 1.0f, 1.0f);
 
         if (this.grounded) {
 
@@ -195,7 +199,12 @@ public class PlayerController : Entity
 
             this.velocity.y = FORCED_JUMP_SPEED;
 
-        }
+        }else if(other.gameObject.CompareTag("Hat")){
+
+            hatSprite.GetComponent<SpriteRenderer>().sprite = other.GetComponent<SpriteRenderer>().sprite;
+            Destroy(other.gameObject);
+			
+		}
 		
 	}
 

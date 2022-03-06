@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Cloud
   - Pigeon
+  - Hat
   layers:
   - Default
   - TransparentFX

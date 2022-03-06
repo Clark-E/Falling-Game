@@ -68,17 +68,23 @@ public class Entity : MonoBehaviour
 		
 		if (tile)
         {
-			
+
+            //print("One Way");
+
 			if(tile == tileLookup.oneWayPlatform){
-				
-				if(y - BOUNDS_THRESHOLD_EPSILION >= previousPosition.y-height*2.0){
+
+                //print(y.ToString() + (previousPosition.y - height - 1.0f).ToString());
+
+                if (y - BOUNDS_THRESHOLD_EPSILION >= (previousPosition.y - height - 1.0f))
+                {
 					
 					return(false);
 					
 				}
-				
-				return(true);
-				
+
+                return(true);
+                //return (false);
+
 			}else{
 				
 				return(true);
