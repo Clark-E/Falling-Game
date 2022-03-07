@@ -7,6 +7,7 @@ TagManager:
   - Cloud
   - Pigeon
   - Hat
+  - PigeonPoop
   layers:
   - Default
   - TransparentFX

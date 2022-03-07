@@ -26,10 +26,6 @@ public class Entity : MonoBehaviour
     [HideInInspector]
     public Vector2 velocity;
 
-    protected float GRAVITY = 0.003f;
-    protected float MAX_FALL_SPEED = 0.03f;
-    protected float MAX_HORIZONTAL_SPEED = 0.055f;
-
     //width and height, measured from center to edge.
     protected float width = 0.5f;
     protected float height = 1.0f;
@@ -257,13 +253,13 @@ public class Entity : MonoBehaviour
                         this.velocity.y = 0.0f;
 
                     }
-
+					
                 }
-
+				
             }
-
+			
         }
-
+		
     }
 
     public void setVisualPosition() {

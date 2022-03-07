@@ -21,11 +21,16 @@ public class PlayerController : Entity
     const float VISUAL_ROTATION_DRAG = 0.98f;
     const float VISUAL_ROTATION_LERP = 0.8f;
 
-    protected float JUMP_SPEED = 0.07f;
+    protected float JUMP_SPEED = 0.13f; //jump speed, when on ground
     protected float FORCED_JUMP_SPEED = 0.13f;
     protected float HORIZONTAL_ACCEL_GROUND = 0.02f;
     protected float HORIZONTAL_ACCEL_AIR = 0.004f;
 
+    protected float GRAVITY = 0.003f;
+    protected float MAX_FALL_SPEED = 0.03f;
+    protected float MIN_FALL_SPEED = 0.015f;
+    protected float MAX_HORIZONTAL_SPEED = 0.055f;
+	
     public Sprite[] sprites;
 
     SpriteRenderer spriteRenderer;
@@ -89,12 +94,10 @@ public class PlayerController : Entity
     void FixedUpdate()
     {
 
-        if (jumped)
+        if (jumped && grounded)
         {
 
             velocity.y = Mathf.Max(velocity.y,JUMP_SPEED);
-
-            jumped = false;
 
         }
         else
@@ -103,11 +106,25 @@ public class PlayerController : Entity
             velocity.y -= GRAVITY;
 
         }
-
-        if (velocity.y < -MAX_FALL_SPEED)
+		
+        jumped = false;
+		
+		float usedMaxFall;
+		
+		if(Input.GetKey(KeyCode.UpArrow)){
+			
+			usedMaxFall = -MIN_FALL_SPEED;
+			
+		}else{
+			
+			usedMaxFall = -MAX_FALL_SPEED;
+			
+		}
+		
+        if (velocity.y < usedMaxFall)
         {
 
-            velocity.y = -MAX_FALL_SPEED;
+            velocity.y = usedMaxFall;
 
         }
 
@@ -188,7 +205,7 @@ public class PlayerController : Entity
 
         //print(other);
 
-        if (other.gameObject.CompareTag("Cloud"))
+        if (other.gameObject.CompareTag("Cloud") || other.gameObject.CompareTag("PigeonPoop"))
         {
 
             this.velocity.y = FORCED_JUMP_SPEED;
