@@ -28,23 +28,21 @@ public class Entity : MonoBehaviour
 
     protected float GRAVITY = 0.003f;
     protected float MAX_FALL_SPEED = 0.03f;
-    protected float JUMP_SPEED = 0.10f;
-    protected float FORCED_JUMP_SPEED = 0.13f;
-    protected float HORIZONTAL_ACCEL_GROUND = 0.02f;
-    protected float HORIZONTAL_ACCEL_AIR = 0.004f;
     protected float MAX_HORIZONTAL_SPEED = 0.055f;
 
     //width and height, measured from center to edge.
     protected float width = 0.5f;
     protected float height = 1.0f;
 
-    protected float BOUNDS_THRESHOLD_EPSILION = 1e-6f;
+    protected float BOUNDS_THRESHOLD_EPSILION = 1e-5f;
 
     protected float tileRadius = 0.5f;
 
     protected Vector3 tilemapCenter;
 
     protected int MAX_COLLISION_RESULTS = 16;
+
+    protected bool hitTile;
 	
     protected void getTileBounds(out float x1, out float x2, out float y1, out float y2)
     {
@@ -70,17 +68,23 @@ public class Entity : MonoBehaviour
 		
 		if (tile)
         {
-			
+
+            //print("One Way");
+
 			if(tile == tileLookup.oneWayPlatform){
-				
-				if(y - BOUNDS_THRESHOLD_EPSILION >= previousPosition.y-height*2.0){
+
+                //print(y.ToString() + (previousPosition.y - height - 1.0f).ToString());
+
+                if (y - BOUNDS_THRESHOLD_EPSILION >= (previousPosition.y - height - 1.0f))
+                {
 					
 					return(false);
 					
 				}
-				
-				return(true);
-				
+
+                return(true);
+                //return (false);
+
 			}else{
 				
 				return(true);
@@ -111,10 +115,10 @@ public class Entity : MonoBehaviour
 
         getTileBounds(out fx1, out fx2, out fy1, out fy2);
 
-        int x1 = Mathf.FloorToInt(fx1 + widthThreshold + xOff);
-        int x2 = Mathf.CeilToInt(fx2 - widthThreshold + xOff);
-        int y1 = Mathf.FloorToInt(fy1 + heightThreshold + yOff);
-        int y2 = Mathf.CeilToInt(fy2 - heightThreshold + yOff);
+        int x1 = Mathf.FloorToInt(fx1 + (widthThreshold + xOff));
+        int x2 = Mathf.CeilToInt(fx2 - (widthThreshold + xOff));
+        int y1 = Mathf.FloorToInt(fy1 + (heightThreshold + yOff));
+        int y2 = Mathf.CeilToInt(fy2 - (heightThreshold + yOff));
 
         for (int i = 0; i < results.Length; i++)
         {
@@ -185,6 +189,8 @@ public class Entity : MonoBehaviour
         {
 
             if (!results[i].hit) break;
+
+            this.hitTile = true;
 
             if (doX)
             {
@@ -267,7 +273,8 @@ public class Entity : MonoBehaviour
     }
 	
 	public void updatePosition(){
-		
+
+        this.hitTile = false;
 		this.previousPosition = this.position;
 		
         position.y += velocity.y;
