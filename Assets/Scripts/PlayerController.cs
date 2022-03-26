@@ -33,8 +33,8 @@ public class PlayerController : Entity
     protected float MAX_HORIZONTAL_SPEED = 0.07f;
 	
 	float owlTimer;
-	const int OWL_TIMER_MAX = 40;
-	const float owlSpeed = 0.10f;
+	const int OWL_TIMER_MAX = 30;
+	const float owlSpeed = 0.12f;
 	
     public Sprite[] sprites;
 
@@ -100,6 +100,8 @@ public class PlayerController : Entity
     {
 		
 		if(owlTimer > 0){
+			
+			this.grounded = false;
 			
 			this.velocity.x = 0.0f;
 			this.velocity.y = owlSpeed;
