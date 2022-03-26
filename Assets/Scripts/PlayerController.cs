@@ -10,6 +10,7 @@ public class PlayerController : Entity
 
     public GameObject playerSprite;
     public GameObject hatSprite;
+	public GameObject owlSprite;
 
     float visualRotation;
     float visualRotationVelocity;
@@ -30,6 +31,10 @@ public class PlayerController : Entity
     protected float MAX_FALL_SPEED = 0.04f;
     protected float MIN_FALL_SPEED = 0.02f;
     protected float MAX_HORIZONTAL_SPEED = 0.07f;
+	
+	float owlTimer;
+	const int OWL_TIMER_MAX = 40;
+	const float owlSpeed = 0.10f;
 	
     public Sprite[] sprites;
 
@@ -93,77 +98,93 @@ public class PlayerController : Entity
 
     void FixedUpdate()
     {
-
-        if (jumped && grounded)
-        {
-
-            velocity.y = Mathf.Max(velocity.y,JUMP_SPEED);
-
-        }
-        else
-        {
-
-            velocity.y -= GRAVITY;
-
-        }
 		
-        jumped = false;
-		
-		float usedMaxFall;
-		
-		if(Input.GetKey(KeyCode.UpArrow)){
+		if(owlTimer > 0){
 			
-			usedMaxFall = -MIN_FALL_SPEED;
+			this.velocity.x = 0.0f;
+			this.velocity.y = owlSpeed;
+			this.owlTimer--;
+			
+			if(this.owlTimer == 0){
+				
+				this.owlSprite.SetActive(false);
+				
+			}
 			
 		}else{
 			
-			usedMaxFall = -MAX_FALL_SPEED;
+			if (jumped && grounded)
+			{
+
+				velocity.y = Mathf.Max(velocity.y,JUMP_SPEED);
+
+			}
+			else
+			{
+
+				velocity.y -= GRAVITY;
+
+			}
+			
+			jumped = false;
+			
+			float usedMaxFall;
+			
+			if(Input.GetKey(KeyCode.UpArrow)){
+				
+				usedMaxFall = -MIN_FALL_SPEED;
+				
+			}else{
+				
+				usedMaxFall = -MAX_FALL_SPEED;
+				
+			}
+			
+			if (velocity.y < usedMaxFall)
+			{
+
+				velocity.y = usedMaxFall;
+
+			}
+
+			//this.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y + velocity.y, this.gameObject.transform.position.z);
+
+			float usedHorizontalAcceleration;
+
+			if (isColliding(checkTileCollision(BOUNDS_THRESHOLD_EPSILION, BOUNDS_THRESHOLD_EPSILION, 0.0f, -BOUNDS_THRESHOLD_EPSILION*2.0f)))
+			{
+
+				grounded = true;
+				usedHorizontalAcceleration = HORIZONTAL_ACCEL_GROUND;
+
+			}
+			else {
+
+				grounded = false;
+				usedHorizontalAcceleration = HORIZONTAL_ACCEL_AIR;
+
+			}
+
+			if (Input.GetKey(KeyCode.RightArrow))
+			{
+
+				velocity.x = Mathf.Min(velocity.x + usedHorizontalAcceleration, MAX_HORIZONTAL_SPEED);
+
+			}
+			else if (Input.GetKey(KeyCode.LeftArrow))
+			{
+
+				velocity.x = Mathf.Max(velocity.x - usedHorizontalAcceleration, -MAX_HORIZONTAL_SPEED);
+
+			}
+			else
+			{
+
+				velocity.x = Mathf.Sign(velocity.x) * Mathf.Max(Mathf.Abs(velocity.x) - usedHorizontalAcceleration, 0.0f);
+
+			}
 			
 		}
-		
-        if (velocity.y < usedMaxFall)
-        {
-
-            velocity.y = usedMaxFall;
-
-        }
-
-        //this.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y + velocity.y, this.gameObject.transform.position.z);
-
-        float usedHorizontalAcceleration;
-
-        if (isColliding(checkTileCollision(BOUNDS_THRESHOLD_EPSILION, BOUNDS_THRESHOLD_EPSILION, 0.0f, -BOUNDS_THRESHOLD_EPSILION*2.0f)))
-        {
-
-            grounded = true;
-            usedHorizontalAcceleration = HORIZONTAL_ACCEL_GROUND;
-
-        }
-        else {
-
-            grounded = false;
-            usedHorizontalAcceleration = HORIZONTAL_ACCEL_AIR;
-
-        }
-
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-
-            velocity.x = Mathf.Min(velocity.x + usedHorizontalAcceleration, MAX_HORIZONTAL_SPEED);
-
-        }
-        else if (Input.GetKey(KeyCode.LeftArrow))
-        {
-
-            velocity.x = Mathf.Max(velocity.x - usedHorizontalAcceleration, -MAX_HORIZONTAL_SPEED);
-
-        }
-        else
-        {
-
-            velocity.x = Mathf.Sign(velocity.x) * Mathf.Max(Mathf.Abs(velocity.x) - usedHorizontalAcceleration, 0.0f);
-
-        }
 
         //this.transform.position = new Vector3(this.gameObject.transform.position.x + velocity.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z);
 		
@@ -220,6 +241,14 @@ public class PlayerController : Entity
 
             hatSprite.GetComponent<SpriteRenderer>().sprite = other.GetComponent<SpriteRenderer>().sprite;
             Destroy(other.gameObject);
+			
+		}else if(other.gameObject.CompareTag("Nest")){
+			
+			//Destroy(other.gameObject);
+			//this.velocity.y = FORCED_JUMP_SPEED;
+			this.owlTimer = OWL_TIMER_MAX;
+			
+			this.owlSprite.SetActive(true);
 			
 		}
 		
