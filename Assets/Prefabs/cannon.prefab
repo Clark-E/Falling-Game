@@ -97,3 +97,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cloudPrefab: {fileID: 2727659009938944853, guid: 8f573ef6687c5bc4b93392cc02d3732e, type: 3}
   PERIOD: 6
+  SPEED: 2

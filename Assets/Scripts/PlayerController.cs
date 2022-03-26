@@ -21,15 +21,15 @@ public class PlayerController : Entity
     const float VISUAL_ROTATION_DRAG = 0.98f;
     const float VISUAL_ROTATION_LERP = 0.8f;
 
-    protected float JUMP_SPEED = 0.13f; //jump speed, when on ground
+    protected float JUMP_SPEED = 0.11f; //jump speed, when on ground
     protected float FORCED_JUMP_SPEED = 0.13f;
-    protected float HORIZONTAL_ACCEL_GROUND = 0.02f;
+    protected float HORIZONTAL_ACCEL_GROUND = 0.01f;
     protected float HORIZONTAL_ACCEL_AIR = 0.004f;
 
     protected float GRAVITY = 0.003f;
-    protected float MAX_FALL_SPEED = 0.03f;
-    protected float MIN_FALL_SPEED = 0.015f;
-    protected float MAX_HORIZONTAL_SPEED = 0.055f;
+    protected float MAX_FALL_SPEED = 0.04f;
+    protected float MIN_FALL_SPEED = 0.02f;
+    protected float MAX_HORIZONTAL_SPEED = 0.07f;
 	
     public Sprite[] sprites;
 
