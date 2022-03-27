@@ -188,6 +188,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 457119865623702283}
     m_Modifications:
+    - target: {fileID: 1079698807901823911, guid: a7049465a6af2854d8ae5ff5718858db, type: 3}
+      propertyPath: m_Color.b
+      value: 0.509434
+      objectReference: {fileID: 0}
+    - target: {fileID: 1079698807901823911, guid: a7049465a6af2854d8ae5ff5718858db, type: 3}
+      propertyPath: m_Color.g
+      value: 0.509434
+      objectReference: {fileID: 0}
+    - target: {fileID: 1079698807901823911, guid: a7049465a6af2854d8ae5ff5718858db, type: 3}
+      propertyPath: m_Color.r
+      value: 0.509434
+      objectReference: {fileID: 0}
     - target: {fileID: 2544780222798708054, guid: a7049465a6af2854d8ae5ff5718858db, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -243,6 +255,18 @@ PrefabInstance:
     - target: {fileID: 2544780222798708055, guid: a7049465a6af2854d8ae5ff5718858db, type: 3}
       propertyPath: m_Name
       value: Parallax Background
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475932179093129975, guid: a7049465a6af2854d8ae5ff5718858db, type: 3}
+      propertyPath: m_Color.b
+      value: 0.8207547
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475932179093129975, guid: a7049465a6af2854d8ae5ff5718858db, type: 3}
+      propertyPath: m_Color.g
+      value: 0.8207547
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475932179093129975, guid: a7049465a6af2854d8ae5ff5718858db, type: 3}
+      propertyPath: m_Color.r
+      value: 0.8207547
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7049465a6af2854d8ae5ff5718858db, type: 3}

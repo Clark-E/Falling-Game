@@ -5,7 +5,8 @@ using UnityEngine;
 public class CloudController : Entity
 {
 
-    float aliveTimer = 1.0f;
+	[HideInInspector]
+    public float aliveTimer = 1.5f;
 
     // Update is called once per frame
     void FixedUpdate()
@@ -35,15 +36,17 @@ public class CloudController : Entity
         this.width = 1.5f;
         this.height = 0.5f;
 
-        float absSin = Mathf.Abs(Mathf.Sin(this.transform.eulerAngles.z * (Mathf.PI / 180.0f)));
-        float absCos = Mathf.Abs(Mathf.Cos(this.transform.eulerAngles.z * (Mathf.PI / 180.0f)));
+		float angle = this.transform.eulerAngles.z * (Mathf.PI / 180.0f);
+		
+        float absSin = Mathf.Abs(Mathf.Sin(angle));
+        float absCos = Mathf.Abs(Mathf.Cos(angle));
 
-        this.height = Mathf.Max(absSin * this.width, absCos * this.height);
-        this.width = Mathf.Max(absSin * this.height, absCos * this.width);
+        float newHeight = Mathf.Max(absSin * this.width, absCos * this.height);
+        float newWidth = Mathf.Max(absSin * this.height, absCos * this.width);
 
-        print(this.width);
-        print(this.height);
-
+		this.height = newHeight;
+		this.width = newWidth;
+		
     }
 
 

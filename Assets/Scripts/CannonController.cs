@@ -10,6 +10,7 @@ public class CannonController : MonoBehaviour
     float fireTimer = 0.0f;
     public float PERIOD = 3.0f;
     public float SPEED;
+	public float aliveTimer = 1.5f;
 
     // Update is called once per frame
     void FixedUpdate()
@@ -34,6 +35,7 @@ public class CannonController : MonoBehaviour
             cloudVelocity.y *= Mathf.Sign(this.transform.localScale.y);
 
             cloudController.velocity = cloudVelocity;
+			cloudController.aliveTimer = this.aliveTimer;
 
         }
 

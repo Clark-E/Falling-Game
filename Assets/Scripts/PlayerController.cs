@@ -7,8 +7,12 @@ public class PlayerController : Entity
 {
 	
 	public GameObject playerCamera;
+	protected Vector2 cameraOffset;
+	protected Vector2 targetCameraOffset;
+	
+	const float CAMERA_OFFSET_LERP = 0.02f;
 
-    public GameObject playerSprite;
+	public GameObject playerSprite;
     public GameObject hatSprite;
 	public GameObject owlSprite;
 
@@ -25,7 +29,8 @@ public class PlayerController : Entity
     protected float JUMP_SPEED = 0.11f; //jump speed, when on ground
     protected float FORCED_JUMP_SPEED = 0.13f;
     protected float HORIZONTAL_ACCEL_GROUND = 0.01f;
-    protected float HORIZONTAL_ACCEL_AIR = 0.004f;
+    protected float HORIZONTAL_ACCEL_AIR = 0.002f;
+    protected float HORIZONTAL_ACCEL_AIR_NEUTRAL = 0.001f;
 
     protected float GRAVITY = 0.003f;
     protected float MAX_FALL_SPEED = 0.04f;
@@ -45,6 +50,8 @@ public class PlayerController : Entity
 
         base.Start();
 
+		cameraOffset = new Vector2(0.0f, 0.0f);
+		
         velocity = new Vector2(0.0f, 0.0f);
 
         tilemapCenter = tilemap.GetCellCenterWorld(new Vector3Int(0, 0, 0));
@@ -71,13 +78,22 @@ public class PlayerController : Entity
             jumped = true;
             
         }
-		
-		playerCamera.transform.position = new Vector3(this.position.x, this.position.y, playerCamera.transform.position.z);
 
-        Quaternion q = new Quaternion();
+		//camera
+		
+		this.cameraOffset = this.cameraOffset*(1.0f-CAMERA_OFFSET_LERP) + this.targetCameraOffset*CAMERA_OFFSET_LERP;
+		
+		//playerCamera.transform.position = new Vector3(this.position.x, this.position.y, playerCamera.transform.position.z);
+		playerCamera.transform.position = new Vector3(this.position.x+this.cameraOffset.x, this.position.y+this.cameraOffset.y, playerCamera.transform.position.z);
+
+		//rotation
+
+		Quaternion q = new Quaternion();
         q.eulerAngles = new Vector3(0.0f, 0.0f, this.visualRotation*EXAGERATE_VISUAL_ROTATION);
         playerSprite.transform.rotation = q;
         playerSprite.transform.localScale = new Vector3(visualHorizontalDirection, 1.0f, 1.0f);
+
+		//player sprite
 
         if (this.grounded) {
 
@@ -87,8 +103,7 @@ public class PlayerController : Entity
 
             this.spriteRenderer.sprite = sprites[1];
 
-        }
-        else{
+        }else{
 
             this.spriteRenderer.sprite = sprites[0];
 
@@ -103,7 +118,7 @@ public class PlayerController : Entity
 			
 			this.grounded = false;
 			
-			this.velocity.x = 0.0f;
+			//this.velocity.x = 0.0f;
 			this.velocity.y = owlSpeed;
 			this.owlTimer--;
 			
@@ -181,7 +196,9 @@ public class PlayerController : Entity
 			}
 			else
 			{
-
+				
+				if(!grounded) usedHorizontalAcceleration = HORIZONTAL_ACCEL_AIR_NEUTRAL;
+				
 				velocity.x = Mathf.Sign(velocity.x) * Mathf.Max(Mathf.Abs(velocity.x) - usedHorizontalAcceleration, 0.0f);
 
 			}
@@ -226,31 +243,43 @@ public class PlayerController : Entity
 	
 	void OnTriggerEnter2D(Collider2D other){
 
-        //print(other);
+		//print(other);
 
-        if (other.gameObject.CompareTag("Cloud") || other.gameObject.CompareTag("PigeonPoop"))
-        {
+		if (other.gameObject.CompareTag("Cloud") || other.gameObject.CompareTag("PigeonPoop"))
+		{
 
-            this.velocity.y = FORCED_JUMP_SPEED;
-            Destroy(other.gameObject);
+			this.velocity.y = FORCED_JUMP_SPEED;
+			Destroy(other.gameObject);
 
-        }
-        else if (other.gameObject.CompareTag("Pigeon")) {
+		}
+		else if (other.gameObject.CompareTag("Pigeon"))
+		{
 
-            this.velocity.y = FORCED_JUMP_SPEED;
+			this.velocity.y = FORCED_JUMP_SPEED;
 
-        }else if(other.gameObject.CompareTag("Hat")){
+		}
+		else if (other.gameObject.CompareTag("Hat"))
+		{
 
-            hatSprite.GetComponent<SpriteRenderer>().sprite = other.GetComponent<SpriteRenderer>().sprite;
-            Destroy(other.gameObject);
-			
-		}else if(other.gameObject.CompareTag("Nest")){
-			
+			hatSprite.GetComponent<SpriteRenderer>().sprite = other.GetComponent<SpriteRenderer>().sprite;
+			Destroy(other.gameObject);
+
+		}
+		else if (other.gameObject.CompareTag("Nest"))
+		{
+
 			//Destroy(other.gameObject);
 			//this.velocity.y = FORCED_JUMP_SPEED;
 			this.owlTimer = OWL_TIMER_MAX;
-			
+
 			this.owlSprite.SetActive(true);
+
+		}
+		else if (other.gameObject.CompareTag("CameraOffset")) { 
+			
+			CameraOffsetTrigger offset = other.gameObject.GetComponent<CameraOffsetTrigger>();
+
+			this.targetCameraOffset = new Vector2(offset.offX,offset.offY);
 			
 		}
 		
