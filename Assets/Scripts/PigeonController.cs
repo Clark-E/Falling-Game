@@ -19,6 +19,7 @@ public class PigeonController : Entity
     new void Start()
     {
         base.Start();
+		
         this.width = 1.0f;
         this.height = 1.0f;
 

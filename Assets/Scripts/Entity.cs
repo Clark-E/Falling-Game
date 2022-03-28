@@ -27,8 +27,8 @@ public class Entity : MonoBehaviour
     public Vector2 velocity;
 
     //width and height, measured from center to edge.
-    protected float width = 0.5f;
-    protected float height = 1.0f;
+    public float width = 0.5f;
+    public float height = 1.0f;
 
     protected float BOUNDS_THRESHOLD_EPSILION = 1e-5f;
 

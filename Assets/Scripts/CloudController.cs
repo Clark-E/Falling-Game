@@ -9,10 +9,10 @@ public class CloudController : Entity
     public float aliveTimer = 1.5f;
 
     // Update is called once per frame
-    void FixedUpdate()
+    public void FixedUpdate()
     {
 
-        Vector2 deltaPosition = Time.deltaTime* velocity;
+        Vector2 deltaPosition = Time.deltaTime* this.velocity;
 
         this.position += new Vector2(deltaPosition.x, deltaPosition.y);
 

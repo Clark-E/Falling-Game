@@ -99,9 +99,11 @@ MonoBehaviour:
   tilemap: {fileID: 0}
   tileLookup: {fileID: 0}
   velocity: {x: 0, y: 0}
-  direction: {x: 0, y: 0}
+  width: 0.5
+  height: 1
+  direction: {x: 3, y: 0}
   poopPrefab: {fileID: 4145272438554333683, guid: f46b7492cfd940442921a4be449f8e89, type: 3}
-  POOP_DROP_THRESHOLD: 0.3
+  POOP_DROP_THRESHOLD: 0.2
   POOP_DROP_PERIOD: 0.5
 --- !u!61 &1039467017357784638
 BoxCollider2D:
