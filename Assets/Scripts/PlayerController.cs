@@ -15,6 +15,9 @@ public class PlayerController : Entity
 	public GameObject playerSprite;
     public GameObject hatSprite;
 	public GameObject owlSprite;
+	
+	public AudioSource jumpSound;
+	public AudioSource hurtSound;
 
     float visualRotation;
     float visualRotationVelocity;
@@ -134,6 +137,8 @@ public class PlayerController : Entity
 			{
 
 				velocity.y = Mathf.Max(velocity.y,JUMP_SPEED);
+				
+				jumpSound.Play();
 
 			}
 			else
@@ -250,20 +255,24 @@ public class PlayerController : Entity
 
 			this.velocity.y = FORCED_JUMP_SPEED;
 			Destroy(other.gameObject);
-
+			
+			this.hurtSound.Play();
+			
 		}
 		else if (other.gameObject.CompareTag("Pigeon"))
 		{
 
 			this.velocity.y = FORCED_JUMP_SPEED;
-
+			
+			this.hurtSound.Play();
+			
 		}
 		else if (other.gameObject.CompareTag("Hat"))
 		{
 
 			hatSprite.GetComponent<SpriteRenderer>().sprite = other.GetComponent<SpriteRenderer>().sprite;
 			Destroy(other.gameObject);
-
+			
 		}
 		else if (other.gameObject.CompareTag("Nest"))
 		{
@@ -273,7 +282,9 @@ public class PlayerController : Entity
 			this.owlTimer = OWL_TIMER_MAX;
 
 			this.owlSprite.SetActive(true);
-
+			
+			this.hurtSound.Play();
+			
 		}
 		else if (other.gameObject.CompareTag("CameraOffset")) { 
 			
